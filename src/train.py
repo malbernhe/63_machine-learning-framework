@@ -1,8 +1,13 @@
+import param
 import pandas as pd
 from sklearn import preprocessing
+from sklearn import ensemble
+from sklearn import metrics
 
-TRAINING_DATA = None
-FOLD = None
+TRAINING_DATA = param.TRAINING_DATA
+TEST_DATA = param.TEST_DATA
+FOLD = int(param.FOLD)
+MODEL = param.MODEL
 
 FOLD_MAPPING = {
     0: [1, 2, 3, 4],
@@ -28,9 +33,22 @@ if __name__ == "__main__":
     label_encoders = {}
     for c in train_df.columns:
         lbl = preprocessing.LabelEncoder()
-        lbl.fit(train_df[c].values.tolist() + valid_df[c].values.tolist() + df_test[c].values.tolist())
+        lbl.fit(train_df[c].values.tolist() + valid_df[c].values.tolist() )
         train_df.loc[:, c] = lbl.transform(train_df[c].values.tolist())
         valid_df.loc[:, c] = lbl.transform(valid_df[c].values.tolist())
         label_encoders[c] = lbl
+
+    # data is ready to train
+    #clf = dispatcher.MODELS[MODEL]
+    
+    clf = ensemble.RandomForestClassifier(n_estimators=100, n_jobs=-1, verbose=2)
+
+    clf.fit(train_df, ytrain)
+    preds = clf.predict_proba(valid_df)[:, 1]
+    print(metrics.roc_auc_score(yvalid, preds))
+
+    #joblib.dump(label_encoders, f"models/{MODEL}_{FOLD}_label_encoder.pkl")
+    #joblib.dump(clf, f"models/{MODEL}_{FOLD}.pkl")
+    #joblib.dump(train_df.columns, f"models/{MODEL}_{FOLD}_columns.pkl")
 
 
