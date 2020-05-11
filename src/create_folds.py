@@ -2,8 +2,8 @@ import pandas as pd
 from sklearn import model_selection
 
 if __name__ == "__main__":
-    df = pd.read_csv("input/train.csv")
-    print (df.head())
+    df = pd.read_csv("input/train.csv") 
+    print (df.columns)
     
     df["kfold"] = -1
     df = df.sample(frac=1).reset_index(drop=True)
@@ -16,6 +16,7 @@ if __name__ == "__main__":
         df.loc[val_idx, 'kfold'] = fold
 
     df.to_csv("input/train_folds.csv", index=False)
+
 
 
 
