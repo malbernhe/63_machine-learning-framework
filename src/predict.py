@@ -11,6 +11,11 @@ import param
 TEST_DATA = param.TEST_DATA
 MODEL = 'randomforest'
 
+t=param.FOLD
+
+t = param.
+
+
 def predict():
     df = pd.read_csv(TEST_DATA)
     
@@ -49,3 +54,4 @@ def predict():
 if __name__ == "__main__":
     submission = predict()
     submission.to_csv(f"models/submission_{MODEL}.csv", index=False)
+
