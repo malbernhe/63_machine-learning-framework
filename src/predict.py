@@ -8,13 +8,9 @@ import numpy as np
 
 import param
 
+
 TEST_DATA = param.TEST_DATA
 MODEL = 'randomforest'
-
-t=param.FOLD
-
-t = param.
-
 
 def predict():
     df = pd.read_csv(TEST_DATA)
